@@ -3,11 +3,13 @@ export default class Restaurante {
     nome: string;
     telefone: string;
     endereco: string;
+    fotoUrl: string;
     
     constructor() {
         this.id = 0;
         this.nome = "";
         this.telefone = "";
         this.endereco = "";
+        this.fotoUrl = "";
     }
 }

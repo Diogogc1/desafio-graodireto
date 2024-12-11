@@ -1,21 +1,14 @@
 import { prisma } from "../../prisma/prismaClient.js";
 import { Request, Response } from 'express';
-import ItemPedidoInput from "../DTOs/inputs/ItemPedidoInput.js";
-import ItemPedidoOutput from "../DTOs/outputs/ItemPedidoOutput.js";
+import ItemPedidoInput from "../DTOs/inputs/ItemPedidoInput";
+import ItemPedidoOutput from "../DTOs/outputs/ItemPedidoOutput";
+import itemPedidoService from "../services/itemPedidoService";
 
 async function create(req: Request<{}, {}, ItemPedidoInput>, res: Response) {
-    const { idPedido, idItemCardapio, quantidade } = req.body;
+    const ItemPedidoInput: ItemPedidoInput = req.body;
 
-    try {
-      const dataItemPedido = {
-        idPedido,
-        idItemCardapio,
-        quantidade
-      };
-  
-      const itemPedido: ItemPedidoOutput = await prisma.itens_pedido.create({
-        data: dataItemPedido
-      });
+    try {  
+      const itemPedido: ItemPedidoOutput = await itemPedidoService.create(ItemPedidoInput);
   
       res.status(201).json(itemPedido);
     } catch (error) {

@@ -28,6 +28,7 @@ model restaurantes {
   nome           String
   telefone       String
   endereco       String
+  fotoUrl        String
   status         Boolean     @default(true)
   pedidos     pedidos[]  // UM RESTAURANTE PODE TER MUITOS PEDIDOS
   itens_cardapio itens_cardapio[] // UM RESTAURANTE PODE TER MUITOS ITENS NO CARDAPIO
@@ -40,6 +41,7 @@ model itens_cardapio {
   nome           String
   descricao      String
   preco          Float
+  fotoUrl        String
   status         Boolean        @default(true)
   pedidosItens   itens_pedido[]  // UM ITEM DO CARDAPIO PODE ESTAR EM MUITOS PEDIDOS
   restaurante    restaurantes    @relation(fields: [id_restaurante], references: [id])

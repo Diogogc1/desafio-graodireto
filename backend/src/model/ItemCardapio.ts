@@ -6,6 +6,7 @@ export default class ItemCardapio {
     nome: string;
     descricao: string;
     preco: number;
+    fotoUrl: string;
 
     constructor(){
         this.id = 0;
@@ -13,5 +14,6 @@ export default class ItemCardapio {
         this.nome = "";
         this.descricao = "";
         this.preco = 0;
+        this.fotoUrl = "";
     }
 }

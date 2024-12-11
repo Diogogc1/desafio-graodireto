@@ -19,17 +19,43 @@ export default function Login() {
     const handleSenha = (e: React.ChangeEvent<HTMLInputElement>) => setSenha(e.target.value);
 
     const submitLogin = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setLogando(true);
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-        alert(`Usuário logado com sucesso! ${userCredential.user.email}`);	
-        // atualizarUsuarioLogado(usuario);
-
-      } catch (e) {
-        alert(`Erro no login! ${e}`);
-      }
+        e.preventDefault();
+        setLogando(true);
+    
+        try {
+            // Faz login com o Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+            const user = userCredential.user;
+    
+            // Obtém o token do usuário autenticado
+            const token = await user.getIdToken();
+    
+            // Exibe o e-mail do usuário logado como feedback
+            alert(`Usuário logado com sucesso! ${user.email}`);
+    
+            // Envia uma requisição ao backend com o token no cabeçalho
+            const response = await fetch('http://localhost:3001/user', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Adiciona o token no cabeçalho
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                alert(`Erro no servidor: ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            console.log('Resposta do backend:', data);
+    
+        } catch (e) {
+            alert(`Erro no login! ${e}`);
+        } finally {
+            setLogando(false);
+        }
     };
+    
 
     return (
         <main className="flex flex-col w-screen h-screen justify-center items-center bg-[#5992FF]">
