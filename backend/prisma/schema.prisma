@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model users {
+  id             Int         @id @default(autoincrement())
+  nome           String
+  uidFirebase    String      @unique
+  status         Boolean     @default(true)
+  pedidos        pedidos[]  // UM USUÁRIO PODE TER MUITOS PEDIDOS
+}
+
+//RESTAURANTES
+model restaurantes {
+  id             Int         @id @default(autoincrement())
+  nome           String
+  telefone       String
+  endereco       String
+  status         Boolean     @default(true)
+  pedidos     pedidos[]  // UM RESTAURANTE PODE TER MUITOS PEDIDOS
+  itens_cardapio itens_cardapio[] // UM RESTAURANTE PODE TER MUITOS ITENS NO CARDAPIO
+}
+
+//ITENS CARDAPIO
+model itens_cardapio {
+  id             Int            @id @default(autoincrement())
+  id_restaurante Int
+  nome           String
+  descricao      String
+  preco          Float
+  status         Boolean        @default(true)
+  pedidosItens   itens_pedido[]  // UM ITEM DO CARDAPIO PODE ESTAR EM MUITOS PEDIDOS
+  restaurante    restaurantes    @relation(fields: [id_restaurante], references: [id])
+}
+
+//PEDIDOS
+model pedidos {
+  id             Int            @id @default(autoincrement())
+  id_user        Int @map("id_user")
+  id_restaurante Int
+  data           DateTime
+  status         Boolean        @default(true)
+  usuario        users          @relation(fields: [id_user], references: [id]) 
+  restaurante    restaurantes   @relation(fields: [id_restaurante], references: [id])
+  pedidosItens   itens_pedido[] //UM PEDIDO PODE TER MUITOS ITENS
+}
+
+//PEDIDOS ITENS
+model itens_pedido {
+  id                Int            @id @default(autoincrement())
+  id_pedido         Int
+  id_item_cardapio  Int @map("id_item")
+  quantidade        Int
+  status            Boolean        @default(true)
+  pedido            pedidos        @relation(fields: [id_pedido], references: [id]) 
+  item              itens_cardapio @relation(fields: [id_item_cardapio], references: [id]) 
+}
