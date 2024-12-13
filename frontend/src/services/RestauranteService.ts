@@ -9,7 +9,7 @@ class RestaurantService {
 
   async create(restaurantInput: RestaurantInput) {
     try {
-      const response = await fetch(`${this.baseURL}/restaurant`, {
+      const response = await fetch(`${this.baseURL}/restaurante`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +30,7 @@ class RestaurantService {
 
   async getAll() {
     try {
-      const response = await fetch(`${this.baseURL}/restaurant`, {
+      const response = await fetch(`${this.baseURL}/restaurante`, {
         method: "GET",
       });
 
@@ -47,7 +47,7 @@ class RestaurantService {
 
   async getById(restaurantId: string) {
     try {
-      const response = await fetch(`${this.baseURL}/restaurants/${restaurantId}`, {
+      const response = await fetch(`${this.baseURL}/restaurante/${restaurantId}`, {
         method: "GET",
       });
 
@@ -64,7 +64,7 @@ class RestaurantService {
 
   async update(restaurantId: string, restaurantInput: RestaurantInput) {
     try {
-      const response = await fetch(`${this.baseURL}/restaurants/${restaurantId}`, {
+      const response = await fetch(`${this.baseURL}/restaurante/${restaurantId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ class RestaurantService {
 
   async delete(restaurantId: string) {
     try {
-      const response = await fetch(`${this.baseURL}/restaurants/${restaurantId}`, {
+      const response = await fetch(`${this.baseURL}/restaurante/${restaurantId}`, {
         method: "DELETE",
       });
 

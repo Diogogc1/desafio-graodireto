@@ -1,5 +1,5 @@
-import { AuthContext, AuthContextProvider } from "@/contexts/UserContext";
-import { useContext } from "react";
+import { CartProvider } from "@/contexts/CartContext";
+import { AuthContextProvider } from "@/contexts/UserContext";
 
 export default function PagesLayout({
   children,
@@ -8,9 +8,11 @@ export default function PagesLayout({
 }>) {
      return (
         <AuthContextProvider>
-            <div>
-                {children}
+          <CartProvider>
+            <div className="flex flex-col w-screen h-screen items-center">
+              {children}
             </div>
+          </CartProvider>
         </AuthContextProvider>
     );
 }

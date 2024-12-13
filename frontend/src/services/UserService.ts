@@ -47,6 +47,7 @@ class UserService {
   
     async getById(userId: string) {
       try {
+        console.log(`bbbb ${userId}`)
         const response = await fetch(`${this.baseURL}/user/${userId}`, {
           method: "GET",
         });
@@ -54,6 +55,8 @@ class UserService {
         if (!response.ok) {
           throw new Error(`Error fetching user: ${response.statusText}`);
         }
+
+        console.log(`aaa ${response}`)
   
         return await response.json();
       } catch (error) {

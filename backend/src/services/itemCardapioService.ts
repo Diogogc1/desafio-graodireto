@@ -27,9 +27,9 @@ async function create(itemCardapioInput: ItemCardapioInput) : Promise<ItemCardap
     return itemCardapioOutput;
 }
 
-async function getAll() : Promise<ItemCardapioOutput[]> {
+async function getAllForRestaurante(idRestaurante: number) : Promise<ItemCardapioOutput[]> {
     const itensCardapio: ItemCardapio[] = await prisma.itens_cardapio.findMany({
-        where: { status: true }
+        where: { status: true, idRestaurante: idRestaurante }
     });
 
     if(itensCardapio.length === 0){
@@ -98,7 +98,7 @@ async function remove(id: number) : Promise<void> {
 
 export default{ 
     create,
-    getAll,
+    getAllForRestaurante,
     getById,
     update,
     remove

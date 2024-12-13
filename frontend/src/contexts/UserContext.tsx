@@ -1,7 +1,7 @@
 "use client"
 
 import { onAuthStateChanged } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import UserOutput from '@/DTOs/outputs/UserOutput';
 import userService from '@/services/UserService';
@@ -36,9 +36,9 @@ function AuthContextProvider({
     })
     const [carregando, setCarregando] = useState<boolean>(true)
 
-    function atualizarUsuarioLogado(usuario: UserOutput) {
+    const atualizarUsuarioLogado = useCallback((usuario: UserOutput) => {
         setUsuarioLogado(usuario)
-    }
+    }, [])
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -47,8 +47,8 @@ function AuthContextProvider({
                     const usuarioLogadoAtualizado = await userService.getById(user.uid);
                     setCarregando(false)
                     atualizarUsuarioLogado(usuarioLogadoAtualizado);
-                }catch(e){
-                    throw new Error()
+                }catch(error){
+                    throw new Error(`${error}`)
                 }
                 
             } else {
@@ -57,7 +57,7 @@ function AuthContextProvider({
         });
 
         return () => unsubscribe(); 
-    }, [atualizarUsuarioLogado]);
+    }, [atualizarUsuarioLogado, router]);
 
     return (
         <AuthContext.Provider value={{ usuarioLogado, atualizarUsuarioLogado, carregando }}>

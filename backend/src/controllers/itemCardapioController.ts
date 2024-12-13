@@ -18,9 +18,10 @@ async function create(req: Request<{}, {}, ItemCardapioInput>, res: Response) {
     }
 };
 
-async function getAll(req: Request, res: Response) {
+async function getAllForRestaurante(req: Request, res: Response) {
+    const { idRestaurante } = req.params;
     try {
-        const itensCardapioOutput: ItemCardapioOutput[] = await itemCardapioService.getAll();
+        const itensCardapioOutput: ItemCardapioOutput[] = await itemCardapioService.getAllForRestaurante(Number(idRestaurante));
         res.status(200).json(itensCardapioOutput);
     } catch (error) {
         if (error instanceof NotFoundError) {
@@ -74,7 +75,7 @@ async function remove(req: Request<{ id: string }>, res: Response) {
 
 export default { 
     create, 
-    getAll, 
+    getAllForRestaurante, 
     getById, 
     update, 
     remove 

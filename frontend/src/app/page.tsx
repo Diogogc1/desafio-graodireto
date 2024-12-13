@@ -3,7 +3,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useContext, useState, useEffect } from 'react';
+import React, { FormEvent,  useState,  } from 'react';
 import { auth } from '../../firebase';
 import {CircularProgress} from "@nextui-org/progress";
 
@@ -29,11 +29,13 @@ export default function Login() {
     
             // Obtém o token do usuário autenticado
             const token = await user.getIdToken();
+            console.log(token);
     
             router.push("/restaurantes");
     
         } catch (e) {
-            alert(`Erro no login! ${e}`);
+            alert(`Erro no login!`);
+            console.error(e);
         } finally {
             setLogando(false);
         }

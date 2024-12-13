@@ -28,9 +28,9 @@ class ItemCardapioService {
     }
   }
 
-  async getAll() {
+  async getAllForRestaurante(idRestaurante: string) {
     try {
-      const response = await fetch(`${this.baseURL}/itemCardapio`, {
+      const response = await fetch(`${this.baseURL}/itemCardapio/forRestaurante/${idRestaurante}`, {
         method: "GET",
       });
 
