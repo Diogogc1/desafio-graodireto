@@ -1,9 +1,5 @@
-export default class UserOutput {
+export default interface UserOutput {
+    id: number;
     nome: string;
-    email: string;
-
-    constructor() {
-        this.nome = "";
-        this.email = "";
-    }
+    uidFirebase: string;
 }

@@ -38,9 +38,9 @@ async function getAll(): Promise<UserOutput[]> {
     return userOutput;
 }
 
-async function getById(id: number): Promise<UserOutput> {
+async function getById(id: string): Promise<UserOutput> {
     const user:User = await prisma.users.findUnique({
-        where: { id: id, status: true }
+        where: { uidFirebase: id, status: true }
     });
 
     if (!user) {

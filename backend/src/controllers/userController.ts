@@ -50,7 +50,7 @@ async function getById(req: Request, res: Response){
     const { id } = req.params;
 
     try {
-        const userOutput: UserOutput = await userService.getById(Number(id));
+        const userOutput: UserOutput = await userService.getById(id);
 
         res.status(200).json(userOutput);
     } catch (error) {

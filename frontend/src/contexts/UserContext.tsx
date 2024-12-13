@@ -4,25 +4,36 @@ import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import UserOutput from '@/DTOs/outputs/UserOutput';
+import userService from '@/services/UserService';
+import { useRouter } from 'next/navigation';
 
-interface userContext{
+interface AuthContext{
     usuarioLogado: UserOutput,
     atualizarUsuarioLogado: (usuario: UserOutput) => void,
     carregando: boolean
 }
 
-const UserContext = React.createContext<userContext>({
-    usuarioLogado: new UserOutput(),
+const AuthContext = React.createContext<AuthContext>({
+    usuarioLogado: {
+        id: 0,
+        nome: "",
+        uidFirebase: ""
+    },
     atualizarUsuarioLogado: () => { },
     carregando: true
 });
 
-function UserContextProvider({
+function AuthContextProvider({
     children,
 }: {
     children: React.ReactNode
 }){
-    const [usuarioLogado, setUsuarioLogado] = useState<UserOutput>(new UserOutput())
+    const router = useRouter()
+    const [usuarioLogado, setUsuarioLogado] = useState<UserOutput>({
+        id: 0,
+        nome: "",
+        uidFirebase: ""
+    })
     const [carregando, setCarregando] = useState<boolean>(true)
 
     function atualizarUsuarioLogado(usuario: UserOutput) {
@@ -31,25 +42,28 @@ function UserContextProvider({
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            // if (user) {
-            //     const usuarioLogadoAtualizado = await usuarioDAO.getOne(user.uid);
-            //     setCarregando(false)
-            //     atualizarUsuarioLogado(usuarioLogadoAtualizado);
-            // } else {
-            //     atualizarUsuarioLogado(new Usuario());
-            // }
-        
-            setCarregando(false);
+            if (user) {
+                try{
+                    const usuarioLogadoAtualizado = await userService.getById(user.uid);
+                    setCarregando(false)
+                    atualizarUsuarioLogado(usuarioLogadoAtualizado);
+                }catch(e){
+                    throw new Error()
+                }
+                
+            } else {
+                router.push('/login')
+            }
         });
 
         return () => unsubscribe(); 
     }, [atualizarUsuarioLogado]);
 
     return (
-        <UserContext.Provider value={{ usuarioLogado, atualizarUsuarioLogado, carregando }}>
+        <AuthContext.Provider value={{ usuarioLogado, atualizarUsuarioLogado, carregando }}>
             {children}
-        </UserContext.Provider>
+        </AuthContext.Provider>
     )
 }
 
-export { UserContext, UserContextProvider }
+export { AuthContext, AuthContextProvider }

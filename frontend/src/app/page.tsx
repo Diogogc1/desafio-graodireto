@@ -30,24 +30,7 @@ export default function Login() {
             // Obtém o token do usuário autenticado
             const token = await user.getIdToken();
     
-            // Exibe o e-mail do usuário logado como feedback
-            alert(`Usuário logado com sucesso! ${user.email}`);
-    
-            // Envia uma requisição ao backend com o token no cabeçalho
-            const response = await fetch('http://localhost:3001/user', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Adiciona o token no cabeçalho
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            if (!response.ok) {
-                alert(`Erro no servidor: ${response.statusText}`);
-            }
-    
-            const data = await response.json();
-            console.log('Resposta do backend:', data);
+            router.push("/restaurantes");
     
         } catch (e) {
             alert(`Erro no login! ${e}`);
