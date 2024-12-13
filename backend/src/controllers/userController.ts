@@ -50,7 +50,23 @@ async function getById(req: Request, res: Response){
     const { id } = req.params;
 
     try {
-        const userOutput: UserOutput = await userService.getById(id);
+        const userOutput: UserOutput = await userService.getById(Number(id));
+
+        res.status(200).json(userOutput);
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            res.status(error.statusCode).json({ error: 'Usuário não encontrado', descricao: error });
+        }else{
+            res.status(500).json({ error: 'Erro ao buscar usuário', descricao: error });
+        }
+    }
+}
+
+async function getByUid(req: Request, res: Response){
+    const { uid } = req.params;
+
+    try {
+        const userOutput: UserOutput = await userService.getByUid(uid);
 
         res.status(200).json(userOutput);
     } catch (error) {
@@ -111,6 +127,7 @@ export default {
     create, 
     getAll, 
     getById, 
+    getByUid,
     update, 
     remove,
     verifyFirebaseToken

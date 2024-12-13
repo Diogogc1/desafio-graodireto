@@ -101,4 +101,5 @@ class ItemPedidoService {
   }
 }
 
-export default new ItemPedidoService("http://localhost:3001");
+const itemPedidoService = new ItemPedidoService("http://localhost:3001");
+export default itemPedidoService

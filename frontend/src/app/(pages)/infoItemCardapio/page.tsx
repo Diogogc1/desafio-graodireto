@@ -21,6 +21,7 @@ export default function InfoItemCardapio() {
             const response: ItemCardapioOutput = await itemCardapioService.getById(id!)
             setItemCardapio(response)
         } catch (error) {
+            alert("Erro ao retornar itens do cardapio!")
             console.error(error)
         }
     }, [id])

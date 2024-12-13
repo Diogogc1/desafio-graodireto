@@ -21,9 +21,9 @@ async function create(pedidoInput: PedidoInput): Promise<PedidoOutput> {
     return pedidoOutput;
 }
 
-async function getAll(): Promise<PedidoOutput[]> {
+async function getAllForUsers(idUser: number): Promise<PedidoOutput[]> {
     const pedido: Pedido[] = await prisma.pedidos.findMany({
-        where: { status: true },
+        where: { status: true, idUser: idUser },
     });
 
     if (pedido.length === 0) {
@@ -86,7 +86,7 @@ async function remove(id: number): Promise<void> {
 
 export default {
     create,
-    getAll,
+    getAllForUsers,
     getById,
     update,
     remove

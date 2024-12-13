@@ -28,9 +28,9 @@ class PedidoService {
     }
   }
 
-  async getAll() {
+  async getAllForUser(idUser: string) {
     try {
-      const response = await fetch(`${this.baseURL}/pedido`, {
+      const response = await fetch(`${this.baseURL}/pedido/forUser/${idUser}`, {
         method: "GET",
       });
 
@@ -101,4 +101,5 @@ class PedidoService {
   }
 }
 
-export default new PedidoService("http://localhost:3001");
+const pedidoService = new PedidoService("http://localhost:3001");
+export default pedidoService

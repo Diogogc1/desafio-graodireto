@@ -44,7 +44,7 @@ function AuthContextProvider({
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try{
-                    const usuarioLogadoAtualizado = await userService.getById(user.uid);
+                    const usuarioLogadoAtualizado = await userService.getByUid(user.uid);
                     setCarregando(false)
                     atualizarUsuarioLogado(usuarioLogadoAtualizado);
                 }catch(error){

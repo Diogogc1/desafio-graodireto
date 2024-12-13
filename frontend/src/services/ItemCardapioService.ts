@@ -101,4 +101,5 @@ class ItemCardapioService {
   }
 }
 
-export default new ItemCardapioService("http://localhost:3001");
+const itemCardapioService = new ItemCardapioService("http://localhost:3001");
+export default itemCardapioService

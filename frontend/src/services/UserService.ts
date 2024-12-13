@@ -47,8 +47,26 @@ class UserService {
   
     async getById(userId: string) {
       try {
-        console.log(`bbbb ${userId}`)
         const response = await fetch(`${this.baseURL}/user/${userId}`, {
+          method: "GET",
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error fetching user: ${response.statusText}`);
+        }
+
+        console.log(`aaa ${response}`)
+  
+        return await response.json();
+      } catch (error) {
+        console.error("Get user by ID error:", error);
+        throw error;
+      }
+    }
+
+    async getByUid(userId: string) {
+      try {
+        const response = await fetch(`${this.baseURL}/user/uid/${userId}`, {
           method: "GET",
         });
   
@@ -106,4 +124,5 @@ class UserService {
     }
 }  
 
-export default new UserService("http://localhost:3001");
+const userService = new UserService("http://localhost:3001");
+export default userService

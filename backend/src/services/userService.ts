@@ -38,9 +38,27 @@ async function getAll(): Promise<UserOutput[]> {
     return userOutput;
 }
 
-async function getById(id: string): Promise<UserOutput> {
+async function getById(id: number): Promise<UserOutput> {
     const user:User = await prisma.users.findUnique({
-        where: { uidFirebase: id, status: true }
+        where: { id: id, status: true }
+    });
+
+    if (!user) {
+        throw new NotFoundError();
+    }
+
+    const userOutput: UserOutput = {
+        id: user.id,
+        nome: user.nome,
+        uidFirebase: user.uidFirebase
+    }
+
+    return userOutput;
+}
+
+async function getByUid(uid: string): Promise<UserOutput> {
+    const user:User = await prisma.users.findUnique({
+        where: { uidFirebase: uid, status: true }
     });
 
     if (!user) {
@@ -82,6 +100,7 @@ export default {
     create,
     getAll,
     getById,
+    getByUid,
     update,
     remove
 };

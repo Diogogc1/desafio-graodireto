@@ -101,4 +101,5 @@ class RestaurantService {
   }
 }
 
-export default new RestaurantService("http://localhost:3001");
+const restauranteService = new RestaurantService("http://localhost:3001");
+export default restauranteService

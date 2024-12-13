@@ -17,9 +17,10 @@ async function create(req: Request<{}, {}, PedidoInput>, res: Response) {
     }
 };
 
-async function getAll(req: Request, res: Response) {
+async function getAllForUser(req: Request, res: Response) {
+    const { idUser } = req.params;
     try {
-        const pedidosOutput: PedidoOutput[] = await pedidoService.getAll();
+        const pedidosOutput: PedidoOutput[] = await pedidoService.getAllForUsers(Number(idUser));
 
         res.status(200).json(pedidosOutput);
     } catch (error) {
@@ -74,7 +75,7 @@ async function remove(req: Request<{ id: string }>, res: Response) {
 
 export default { 
     create, 
-    getAll, 
+    getAllForUser, 
     getById, 
     update, 
     remove 

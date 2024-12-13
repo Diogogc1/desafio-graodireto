@@ -30,6 +30,19 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const addToCart = (itemCardapio: ItemCardapioOutput) => {
     setCartItems((prevItems) => {
+      // Verifica se já existe um item de outro restaurante no carrinho
+      if(cartItems.length > 0){
+        const restauranteDiferente = prevItems.find(
+          (cartItem) => cartItem.itemCardapioOutput.restauranteOutput.id !== itemCardapio.restauranteOutput.id
+        );
+    
+        if (restauranteDiferente) {
+          // Impede a adição de itens de outro restaurante se já existir um item de restaurante diferente no carrinho
+          alert("Você só pode adicionar itens de um restaurante por vez.");
+          return prevItems;
+        }
+      }
+  
       const itemExistente = prevItems.find(
         (cartItem) => cartItem.itemCardapioOutput.id === itemCardapio.id
       );
@@ -49,10 +62,23 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     });
   };
   
+  
 
   const removeFromCart = (idItemPedido: number) => {
-    setCartItems((prevItems) => prevItems.filter((item: CartItem) => item.itemCardapioOutput.id !== idItemPedido));
+    setCartItems((prevItems) => {
+      return prevItems.map((cartItem) => {
+          if (cartItem.itemCardapioOutput.id === idItemPedido) {
+            if (cartItem.quantidade > 1) {
+            return { ...cartItem, quantidade: cartItem.quantidade - 1 };
+          } else {
+            return null;
+          }
+        }
+        return cartItem; 
+      }).filter((item) => item !== null);
+    });
   };
+  
 
   const clearCart = () => {
     setCartItems([]);
