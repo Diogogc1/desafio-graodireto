@@ -1,6 +1,9 @@
+import RestauranteOutput from "./RestauranteOutput";
+import UserOutput from "./UserOutput";
+
 export default interface PedidoOutput {
     id: number;
-    idUser: number;
-    idRestaurante: number;
+    userOutput: UserOutput;
+    restauranteOutput: RestauranteOutput;
     data: Date;
 }

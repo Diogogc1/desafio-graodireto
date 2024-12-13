@@ -3,4 +3,5 @@ export default interface ItemCardapioInput{
     nome: string;
     descricao: string;
     preco: number;
+    fotoUrl: string;
 }

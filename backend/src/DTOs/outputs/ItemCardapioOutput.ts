@@ -1,7 +1,10 @@
+import RestauranteOutput from "./RestauranteOutput";
+
 export default interface ItemCardapioOutput{
     id: number;
-    idRestaurante: number;
+    restauranteOutput: RestauranteOutput;
     nome: string;
     descricao: string;
     preco: number;
+    fotoUrl: string;
 }

@@ -3,14 +3,14 @@ import Pedido from "./Pedido";
 
 export default class ItemPedido{
     id: number;
-    pedido: Pedido;
-    itemCardapio: ItemCardapio;
+    id_pedido: number;
+    idItemCardapio: number;
     quantidade: number;
 
     constructor(){
         this.id = 0;
-        this.pedido = new Pedido();
-        this.itemCardapio = new ItemCardapio();
+        this.id_pedido = 0;
+        this.idItemCardapio = 0;
         this.quantidade = 0
     }
 }

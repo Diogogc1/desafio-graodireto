@@ -37,35 +37,35 @@ model restaurantes {
 //ITENS CARDAPIO
 model itens_cardapio {
   id             Int            @id @default(autoincrement())
-  id_restaurante Int
+  idRestaurante Int            @map("id_restaurante")
   nome           String
   descricao      String
   preco          Float
   fotoUrl        String
   status         Boolean        @default(true)
   pedidosItens   itens_pedido[]  // UM ITEM DO CARDAPIO PODE ESTAR EM MUITOS PEDIDOS
-  restaurante    restaurantes    @relation(fields: [id_restaurante], references: [id])
+  restaurante    restaurantes    @relation(fields: [idRestaurante], references: [id])
 }
 
 //PEDIDOS
 model pedidos {
-  id             Int            @id @default(autoincrement())
-  id_user        Int @map("id_user")
-  id_restaurante Int
-  data           DateTime
-  status         Boolean        @default(true)
-  usuario        users          @relation(fields: [id_user], references: [id]) 
-  restaurante    restaurantes   @relation(fields: [id_restaurante], references: [id])
-  pedidosItens   itens_pedido[] //UM PEDIDO PODE TER MUITOS ITENS
+  id              Int            @id @default(autoincrement())
+  idUser          Int            @map("id_user")
+  idRestaurante  Int            @map("id_item_cardapio")
+  data            DateTime
+  status          Boolean        @default(true)
+  usuario         users          @relation(fields: [idUser], references: [id]) 
+  restaurante     restaurantes   @relation(fields: [idRestaurante], references: [id])
+  pedidosItens    itens_pedido[] //UM PEDIDO PODE TER MUITOS ITENS
 }
 
 //PEDIDOS ITENS
 model itens_pedido {
   id                Int            @id @default(autoincrement())
-  id_pedido         Int
-  id_item_cardapio  Int @map("id_item")
+  idPedido         Int            @map("id_pedido")
+  idItemCardapio  Int            @map("id_item_cardapio")
   quantidade        Int
   status            Boolean        @default(true)
-  pedido            pedidos        @relation(fields: [id_pedido], references: [id]) 
-  item              itens_cardapio @relation(fields: [id_item_cardapio], references: [id]) 
+  pedido            pedidos        @relation(fields: [idPedido], references: [id]) 
+  item              itens_cardapio @relation(fields: [idItemCardapio], references: [id]) 
 }

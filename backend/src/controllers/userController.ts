@@ -1,11 +1,12 @@
 import { prisma } from "../../prisma/prismaClient.js";
 import { NextFunction, Request, Response } from 'express';
-import UserInput from "../DTOs/inputs/UserInput.js";
-import UserOutput from "../DTOs/outputs/UserOutput.js";
+import UserInput from "../DTOs/inputs/UserInput";
+import UserOutput from "../DTOs/outputs/UserOutput";
 import userService from "../services/userService";
 import admin from "../../firebaseAdmin"; // O arquivo que você já configurou
 
 import User from "../model/User.js";
+import NotFoundError from "../errors/NotFoundError";
 
 //USO ESSA PARTE PARA TIPAR O REQ NA FUNCTION VERIFY TOKEN
 // Estende o tipo do Request
@@ -22,9 +23,9 @@ async function create(req: Request<{}, {}, UserInput>, res: Response) {
     const userInput: UserInput = req.body;
 
     try {  
-      const user: UserOutput = await userService.create(userInput);
+      const userOutput: UserOutput = await userService.create(userInput);
   
-      res.status(201).json(user);
+      res.status(201).json(userOutput);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao criar usuário', descricao: error });
     }
@@ -33,10 +34,15 @@ async function create(req: Request<{}, {}, UserInput>, res: Response) {
 
 async function getAll(req: Request, res: Response) {
     try {
-        const users: UserOutput[] = await userService.getAll();
-        res.status(200).json(users);
+        const usersOutput: UserOutput[] = await userService.getAll();
+
+        res.status(200).json(usersOutput);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar usuários', descricao: error });
+        if (error instanceof NotFoundError) {
+            res.status(error.statusCode).json({ error: 'Usuários não encontrados', descricao: error });
+        }else{
+            res.status(500).json({ error: 'Erro ao buscar usuários', descricao: error });
+        }
     }
 }
 
@@ -44,15 +50,15 @@ async function getById(req: Request, res: Response){
     const { id } = req.params;
 
     try {
-        const user: UserOutput = await userService.getById(Number(id));
+        const userOutput: UserOutput = await userService.getById(Number(id));
 
-        if (!user) {
-            res.status(404).json({ error: 'Usuário não encontrado' });
-        }
-
-        res.status(200).json(user);
+        res.status(200).json(userOutput);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar usuário', descricao: error });
+        if (error instanceof NotFoundError) {
+            res.status(error.statusCode).json({ error: 'Usuário não encontrado', descricao: error });
+        }else{
+            res.status(500).json({ error: 'Erro ao buscar usuário', descricao: error });
+        }
     }
 }
 
@@ -61,9 +67,9 @@ async function update(req: Request<{ id: string }, {}, UserInput>, res: Response
     const userInput: UserInput = req.body;
 
     try {
-        const user: UserOutput = await userService.update(Number(id), userInput);
+        const userOutput: UserOutput = await userService.update(Number(id), userInput);
 
-        res.status(200).json(user);
+        res.status(200).json(userOutput);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar usuário', descricao: error });
     }

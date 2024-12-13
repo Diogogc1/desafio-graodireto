@@ -3,4 +3,5 @@ export default interface RestauranteOutput {
     nome: string;
     telefone: string;
     endereco: string;
+    fotoUrl: string;
 }

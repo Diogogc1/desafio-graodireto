@@ -2,7 +2,7 @@ import Restaurante from "./Restaurante";
 
 export default class ItemCardapio {
     id: number;
-    restaurante: Restaurante;
+    idRestaurante: number;
     nome: string;
     descricao: string;
     preco: number;
@@ -10,7 +10,7 @@ export default class ItemCardapio {
 
     constructor(){
         this.id = 0;
-        this.restaurante = new Restaurante();
+        this.idRestaurante = 0;
         this.nome = "";
         this.descricao = "";
         this.preco = 0;

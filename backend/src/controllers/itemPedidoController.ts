@@ -3,14 +3,15 @@ import { Request, Response } from 'express';
 import ItemPedidoInput from "../DTOs/inputs/ItemPedidoInput";
 import ItemPedidoOutput from "../DTOs/outputs/ItemPedidoOutput";
 import itemPedidoService from "../services/itemPedidoService";
+import NotFoundError from "../errors/NotFoundError";
 
 async function create(req: Request<{}, {}, ItemPedidoInput>, res: Response) {
     const ItemPedidoInput: ItemPedidoInput = req.body;
 
     try {  
-      const itemPedido: ItemPedidoOutput = await itemPedidoService.create(ItemPedidoInput);
+      const ItemPedidoOutput: ItemPedidoOutput = await itemPedidoService.create(ItemPedidoInput);
   
-      res.status(201).json(itemPedido);
+      res.status(201).json(ItemPedidoOutput);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao criar item de pedido', descricao: error });
     }
@@ -18,12 +19,15 @@ async function create(req: Request<{}, {}, ItemPedidoInput>, res: Response) {
 
 async function getAll(req: Request, res: Response) {
     try {
-        const itensPedido: ItemPedidoOutput[] = await prisma.itens_pedido.findMany({
-            where: { status: true }
-        });
+        const itensPedido: ItemPedidoOutput[] = await itemPedidoService.getAll();
+
         res.status(200).json(itensPedido);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar itens de pedido', descricao: error });
+        if (error instanceof NotFoundError) {
+            res.status(error.statusCode).json({ error: 'Itens pedido não encontrados', descricao: error });
+        }else{
+            res.status(500).json({ error: 'Erro ao buscar itens de pedido', descricao: error });
+        }
     }
 }
 
@@ -31,29 +35,24 @@ async function getById(req: Request, res: Response){
     const { id } = req.params;
 
     try {
-        const itemPedido: ItemPedidoOutput = await prisma.itens_pedido.findUnique({
-            where: { id: Number(id), status: true }
-        });
-
-        if (!itemPedido) {
-            res.status(404).json({ error: 'Item de pedido não encontrado' });
-        }
+        const itemPedido: ItemPedidoOutput = await itemPedidoService.getById(Number(id));
 
         res.status(200).json(itemPedido);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar item de pedido', descricao: error });
+        if (error instanceof NotFoundError) {
+            res.status(error.statusCode).json({ error: 'Item Pedido não encontrado', descricao: error });
+        }else{
+            res.status(500).json({ error: 'Erro ao buscar item de pedido', descricao: error });
+        }
     }
 }
 
 async function update(req: Request<{ id: string }, {}, ItemPedidoInput>, res: Response) {
     const { id } = req.params;
-    const { idPedido, idItemCardapio, quantidade } = req.body;
+    const itemPedidoInput: ItemPedidoInput = req.body;
 
     try {
-        const itemPedido: ItemPedidoOutput = await prisma.itens_pedido.update({
-            where: { id: Number(id), status: true },
-            data: { idPedido, idItemCardapio, quantidade }
-        });
+        const itemPedido: ItemPedidoOutput = await itemPedidoService.update(Number(id), itemPedidoInput);
 
         res.status(200).json(itemPedido);
     } catch (error) {
@@ -65,10 +64,7 @@ async function remove(req: Request<{ id: string }>, res: Response) {
     const { id } = req.params;
 
     try {
-        await prisma.itens_pedido.update({
-            where: { id: Number(id), status: true },
-            data: { status: false }
-        });
+        await itemPedidoService.remove(Number(id));
 
         res.status(204).send();
     } catch (error) {
