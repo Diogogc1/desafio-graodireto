@@ -1,6 +1,7 @@
 "use client"
 
-import { AuthContext } from "@/contexts/UserContext"
+import CardPedido from "@/components/CardPedido"
+import { AuthContext } from "@/contexts/AuthContext"
 import PedidoOutput from "@/DTOs/outputs/PedidoOutput"
 import pedidoService from "@/services/PedidoService"
 import { useCallback, useContext, useEffect, useState } from "react"
@@ -27,13 +28,10 @@ export default function Pedidos(){
 
     return (
         <>
-            <h1>Pedidos</h1>
+            <h1 className="text-2xl mt-4">Pedidos</h1>
            
             {pedidos.map((pedido) => (
-                <div key={pedido.id}>
-                    <h2>{pedido.data.toString()}</h2>
-                    <p>{pedido.restauranteOutput.nome}</p>
-                </div>
+                <CardPedido pedido={pedido} key={pedido.id} />
             ))}
         </>
     )

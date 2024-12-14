@@ -86,10 +86,53 @@ async function remove(id: number): Promise<void> {
     });
 }
 
+async function search(termo: string, page: number = 1, pageSize: number = 10) {
+    const restaurantes = await prisma.restaurantes.findMany({
+        where: {
+            OR: [
+                {
+                    nome: {
+                        contains: termo,
+                        mode: 'insensitive',
+                    },
+                },
+                {
+                    itens_cardapio: {
+                        some: {
+                            OR: [
+                                {
+                                    nome: {
+                                        contains: termo,
+                                        mode: 'insensitive',
+                                    },
+                                },
+                                {
+                                    descricao: {
+                                        contains: termo,
+                                        mode: 'insensitive',
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+        },
+        include: {
+            itens_cardapio: true, // Inclui os itens do cardápio relacionados
+        },
+        skip: (page - 1) * pageSize, // Pula os registros das páginas anteriores
+        take: pageSize, // Limita o número de registros por página
+    });
+
+    return restaurantes;
+}
+
 export default {
     create,
     getAll,
     getById,
     update,
-    remove
+    remove,
+    search
 };

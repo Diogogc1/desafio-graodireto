@@ -72,10 +72,30 @@ async function remove(req: Request<{ id: string }>, res: Response) {
     }
 }
 
+async function search(req: Request, res: Response) : Promise<void> {
+    const { termo } = req.params;
+
+    console.log('Termo de busca:', termo);
+
+    if (typeof termo !== 'string' || termo.trim() === '') {
+        res.status(400).json({ error: 'O termo de busca não pode estar vazio.' });
+        return;
+    }
+
+    try {
+        const result = await restauranteService.search(termo as string);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Erro ao fazer a busca:', error);
+        res.status(500).json({ error: 'Erro ao fazer a busca.' });
+    }
+}
+
 export default { 
     create, 
     getAll, 
     getById, 
     update, 
-    remove 
+    remove,
+    search
 };

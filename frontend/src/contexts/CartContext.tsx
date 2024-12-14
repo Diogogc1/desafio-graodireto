@@ -94,3 +94,4 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 };
 
 export default CartContext;
+export type { CartItem };

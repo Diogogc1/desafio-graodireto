@@ -1,5 +1,6 @@
 import {nextui} from '@nextui-org/theme';
 import type { Config } from "tailwindcss";
+import colors from './colors';
 
 export default {
   content: [
@@ -10,10 +11,7 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+      colors: colors,
     },
   },
   plugins: [nextui()],

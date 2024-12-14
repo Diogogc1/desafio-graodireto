@@ -1,5 +1,7 @@
 "use client";
 
+import CardItemCardapio from "@/components/CardItemCardapio";
+import CardRestaurante from "@/components/CardRestaurante";
 import ItemCardapioOutput from "@/DTOs/outputs/ItemCardapioOutput";
 import RestauranteOutput from "@/DTOs/outputs/RestauranteOutput"
 import ItemCardapioService from "@/services/ItemCardapioService";
@@ -42,23 +44,21 @@ export default function InfoRestaurante() {
 
     return(
         <>
-            <h1>Informações do Restaurante</h1>
+            <h1 className="sm:text-2xl text-xl mt-4">Informações do Restaurante</h1>
             {restaurante && (
-                <div>
-                    <h2>{restaurante.nome}</h2>
-                    <p>{restaurante.endereco}</p>
-                    <p>{restaurante.telefone}</p>
-                </div>
+                <div className="border border-black mt-4 flex items-center lg:w-[60%] sm:w-[50%] w-[80%] rounded-lg">
+                  <img src={restaurante.fotoUrl} className="rounded-l-lg lg:w-[120] sm:w-[90] w-[70] " alt={`Foto do restaurante ${restaurante.nome}`} />
+                    <div className="text-start sm:pl-4 pl-2 lg:text-base sm:text-xs text-[9px] flex flex-col lg:gap-0 gap-1">
+                        <h2>{restaurante.nome}</h2>
+                        <p>{restaurante.endereco}</p>
+                        <p>{restaurante.telefone}</p>
+                    </div>
+              </div>
             )}
 
-            <h2>Cardapio</h2>
+            <h2 className="text-xl mt-8">Cardapio</h2>
             {itensCardapio.map((item) => (
-                <button onClick={() => router.push(`/infoItemCardapio?id=${item.id}`)} key={item.id} className="border-2 border-black p-4 mt-4">
-                    <h2>{item.nome}</h2>
-                    <img src={item.fotoUrl} alt={item.nome} width={100} />
-                    <p>{item.descricao}</p>
-                    <p>{item.preco}</p>
-                </button>
+                <CardItemCardapio key={item.id} itemCardapio={item}></CardItemCardapio>
             ))}
         </>
     )

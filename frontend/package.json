@@ -12,8 +12,10 @@
     "@nextui-org/progress": "^2.2.4",
     "@nextui-org/system": "^2.4.4",
     "@nextui-org/theme": "^2.4.3",
+    "@phosphor-icons/react": "^2.1.7",
     "firebase": "^11.0.2",
     "framer-motion": "^11.13.5",
+    "moment": "^2.30.1",
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

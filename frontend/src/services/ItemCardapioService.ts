@@ -17,13 +17,9 @@ class ItemCardapioService {
         body: JSON.stringify(itemCardapioInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error creating itemCardapio: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Create itemCardapio error:", error);
+      console.error("Erro ao criar itemCardapio:", error);
       throw error;
     }
   }
@@ -34,13 +30,9 @@ class ItemCardapioService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching itemCardapios: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get all itemCardapios error:", error);
+      console.error("Erro ao buscar todos os itemCardapios:", error);
       throw error;
     }
   }
@@ -51,13 +43,9 @@ class ItemCardapioService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching itemCardapio: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get itemCardapio by ID error:", error);
+      console.error("Erro ao buscar itemCardapio por ID:", error);
       throw error;
     }
   }
@@ -73,12 +61,12 @@ class ItemCardapioService {
       });
 
       if (!response.ok) {
-        throw new Error(`Error updating itemCardapio: ${response.statusText}`);
+        throw new Error(`Erro ao atualizar itemCardapio: ${response.statusText}`);
       }
 
       return await response.json();
     } catch (error) {
-      console.error("Update itemCardapio error:", error);
+      console.error("Erro ao atualizar itemCardapio:", error);
       throw error;
     }
   }
@@ -89,17 +77,13 @@ class ItemCardapioService {
         method: "DELETE",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error deleting itemCardapio: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Delete itemCardapio error:", error);
+      console.error("Erro ao deletar itemCardapio:", error);
       throw error;
     }
   }
 }
 
 const itemCardapioService = new ItemCardapioService("http://localhost:3001");
-export default itemCardapioService
+export default itemCardapioService;

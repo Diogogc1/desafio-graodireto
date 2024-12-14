@@ -17,30 +17,22 @@ class ItemPedidoService {
         body: JSON.stringify(itemPedidoInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error creating itemPedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Create itemPedido error:", error);
+      console.error("Erro ao criar itemPedido:", error);
       throw error;
     }
   }
 
-  async getAll() {
+  async getAllForPedido(idPedido: string) {
     try {
-      const response = await fetch(`${this.baseURL}/itemPedido`, {
+      const response = await fetch(`${this.baseURL}/itemPedido/forPedido/${idPedido}`, {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching itemPedidos: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get all itemPedidos error:", error);
+      console.error("Erro ao buscar todos os itemPedidos:", error);
       throw error;
     }
   }
@@ -51,13 +43,9 @@ class ItemPedidoService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching itemPedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get itemPedido by ID error:", error);
+      console.error("Erro ao buscar itemPedido por ID:", error);
       throw error;
     }
   }
@@ -72,13 +60,9 @@ class ItemPedidoService {
         body: JSON.stringify(itemPedidoInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error updating itemPedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Update itemPedido error:", error);
+      console.error("Erro ao atualizar itemPedido:", error);
       throw error;
     }
   }
@@ -89,17 +73,13 @@ class ItemPedidoService {
         method: "DELETE",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error deleting itemPedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Delete itemPedido error:", error);
+      console.error("Erro ao deletar itemPedido:", error);
       throw error;
     }
   }
 }
 
 const itemPedidoService = new ItemPedidoService("http://localhost:3001");
-export default itemPedidoService
+export default itemPedidoService;

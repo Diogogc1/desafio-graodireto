@@ -17,13 +17,9 @@ class PedidoService {
         body: JSON.stringify(pedidoInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error creating pedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Create pedido error:", error);
+      console.error("Erro ao criar pedido:", error);
       throw error;
     }
   }
@@ -34,13 +30,9 @@ class PedidoService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching pedidos: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get all pedidos error:", error);
+      console.error("Erro ao buscar todos os pedidos:", error);
       throw error;
     }
   }
@@ -51,13 +43,9 @@ class PedidoService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching pedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get pedido by ID error:", error);
+      console.error("Erro ao buscar pedido por ID:", error);
       throw error;
     }
   }
@@ -72,13 +60,9 @@ class PedidoService {
         body: JSON.stringify(pedidoInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error updating pedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Update pedido error:", error);
+      console.error("Erro ao atualizar pedido:", error);
       throw error;
     }
   }
@@ -89,17 +73,13 @@ class PedidoService {
         method: "DELETE",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error deleting pedido: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Delete pedido error:", error);
+      console.error("Erro ao deletar pedido:", error);
       throw error;
     }
   }
 }
 
 const pedidoService = new PedidoService("http://localhost:3001");
-export default pedidoService
+export default pedidoService;

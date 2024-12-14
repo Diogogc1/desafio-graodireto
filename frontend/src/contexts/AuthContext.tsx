@@ -52,7 +52,7 @@ function AuthContextProvider({
                 }
                 
             } else {
-                router.push('/login')
+                router.push('/')
             }
         });
 

@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import UserInput from "../DTOs/inputs/UserInput";
 import UserOutput from "../DTOs/outputs/UserOutput";
 import userService from "../services/userService";
-import admin from "../../firebaseAdmin"; // O arquivo que você já configurou
+import admin from "../../firebaseAdmin.js"; // O arquivo que você já configurou
 
 import User from "../model/User.js";
 import NotFoundError from "../errors/NotFoundError";

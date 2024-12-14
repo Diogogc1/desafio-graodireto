@@ -14,7 +14,7 @@ async function create(itemPedidoInput: itemPedidoInput): Promise<itemPedidoOutpu
 
     const itemPedidoOutput: itemPedidoOutput = {
         id: itemPedido.id,
-        pedidoOutput: await pedidoService.getById(itemPedido.id_pedido),
+        pedidoOutput: await pedidoService.getById(itemPedido.idPedido),
         itemCardapioOutput: await itemCardapioService.getById(itemPedido.idItemCardapio),
         quantidade: itemPedido.quantidade
     };
@@ -22,9 +22,11 @@ async function create(itemPedidoInput: itemPedidoInput): Promise<itemPedidoOutpu
     return itemPedidoOutput
 }
 
-async function getAll(): Promise<itemPedidoOutput[]>{
+async function getAllForPedido(idPedido: number): Promise<itemPedidoOutput[]>{
+    console.log(`service: ${idPedido}`);
+
     const itensPedido: ItemPedido[] = await prisma.itens_pedido.findMany({
-        where: { status: true }
+        where: { status: { not: false }, idPedido: idPedido }
     });
 
     if(itensPedido.length === 0){
@@ -34,7 +36,7 @@ async function getAll(): Promise<itemPedidoOutput[]>{
     const itensPedidoOutput: itemPedidoOutput[] = await Promise.all(itensPedido.map(async (itemPedido) => {
         return {
             id: itemPedido.id,
-            pedidoOutput: await pedidoService.getById(itemPedido.id_pedido),
+            pedidoOutput: await pedidoService.getById(itemPedido.idPedido),
             itemCardapioOutput: await itemCardapioService.getById(itemPedido.idItemCardapio),
             quantidade: itemPedido.quantidade
         }
@@ -70,7 +72,7 @@ async function update(id: number, itemPedidoInput: itemPedidoInput): Promise<ite
 
     const itemPedidoOutput: itemPedidoOutput = {
         id: itemPedido.id,
-        pedidoOutput: await pedidoService.getById(itemPedido.id_pedido),
+        pedidoOutput: await pedidoService.getById(itemPedido.idPedido),
         itemCardapioOutput: await itemCardapioService.getById(itemPedido.idItemCardapio),
         quantidade: itemPedido.quantidade
     };
@@ -87,7 +89,7 @@ async function remove(id: number): Promise<void>{
 
 export default { 
     create, 
-    getAll, 
+    getAllForPedido, 
     getById, 
     update, 
     remove 

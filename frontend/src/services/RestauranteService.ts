@@ -17,13 +17,9 @@ class RestaurantService {
         body: JSON.stringify(restaurantInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error creating restaurant: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Create restaurant error:", error);
+      console.error("Erro ao criar restaurante:", error);
       throw error;
     }
   }
@@ -34,13 +30,9 @@ class RestaurantService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching restaurants: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get all restaurants error:", error);
+      console.error("Erro ao buscar todos os restaurantes:", error);
       throw error;
     }
   }
@@ -51,13 +43,9 @@ class RestaurantService {
         method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error fetching restaurant: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Get restaurant by ID error:", error);
+      console.error("Erro ao buscar restaurante por ID:", error);
       throw error;
     }
   }
@@ -72,13 +60,9 @@ class RestaurantService {
         body: JSON.stringify(restaurantInput),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error updating restaurant: ${response.statusText}`);
-      }
-
       return await response.json();
     } catch (error) {
-      console.error("Update restaurant error:", error);
+      console.error("Erro ao atualizar restaurante:", error);
       throw error;
     }
   }
@@ -89,17 +73,27 @@ class RestaurantService {
         method: "DELETE",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error deleting restaurant: ${response.statusText}`);
-      }
+      return await response.json();
+    } catch (error) {
+      console.error("Erro ao deletar restaurante:", error);
+      throw error;
+    }
+  }
+
+  async search(termo: string) {
+    try {
+      console.log('Termo de busca:', termo);
+      const response = await fetch(`${this.baseURL}/restaurante/search/${termo}`, {
+        method: "GET",
+      });
 
       return await response.json();
     } catch (error) {
-      console.error("Delete restaurant error:", error);
+      console.error("Erro ao buscar restaurante:", error);
       throw error;
     }
   }
 }
 
 const restauranteService = new RestaurantService("http://localhost:3001");
-export default restauranteService
+export default restauranteService;
